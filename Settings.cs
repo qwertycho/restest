@@ -86,8 +86,12 @@ namespace restest
         private string askDefaultUrl()
         {
             Console.WriteLine($"Enter default URL | leave empty for {defaultURL}");
-            string? input = Console.ReadLine() ?? defaultURL;
+            string? input = Console.ReadLine();
+            if (input == "") { input = defaultURL; }
+            Console.WriteLine(input);
             Url url = new Url(input);
+
+            Console.WriteLine($"Using {url.getUrl()} as default URL");
             string? newDefaultURL = url.getUrl();
             if (newDefaultURL == "") { newDefaultURL = defaultURL; }
             return newDefaultURL;

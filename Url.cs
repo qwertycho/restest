@@ -24,7 +24,7 @@ namespace restest
             }
             else
             {
-                
+                Console.WriteLine($"No protocol specified, using {settings.getProtocol()}");
                 return settings.getProtocol() + url;; 
             }
         }
