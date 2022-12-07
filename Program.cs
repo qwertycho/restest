@@ -15,17 +15,18 @@ else
 async Task parseArgs(string[] args)
 {
     ResponseTest responseTest = new ResponseTest();
+    Settings settings = new Settings();
+
 
     switch(args[0])
     {
         case "H":
-            Console.WriteLine("Commands: \n H - Help \n D - run with default settings \n M - run with custom settings");
+            Console.WriteLine("Commands: \n H - Help \n D - run with default settings \n M - run with custom settings \n R reset defaults");
             Console.WriteLine("Usage: restest [mode] [seconds] [url] ");
             break;
 
         case "D":
             Console.WriteLine("Running with default settings");
-            Settings settings = new Settings();
             settings.checkSettings();
             Url url = new Url(settings.getUrl());
             await responseTest.TestResponseTimes(settings.getDuration(), url.getUrl());
@@ -41,6 +42,11 @@ async Task parseArgs(string[] args)
 
             await responseTest.TestResponseTimes(duration, url2.getUrl());
             break;
+
+        case "R":
+            settings.reset();
+            break;
+        
     }
 }
 

@@ -8,15 +8,15 @@ namespace restest
         private string url;
         public Url(string url)
         {
-            this.url = chechUrl(url);
+            this.url = checkUrl(url);
         }
 
         public string getUrl()
         {
-            return url;
+            return this.url;
         }
 
-        private string chechUrl(string url)
+        private string checkUrl(string url)
         {
             if (url.StartsWith("http://") || url.StartsWith("https://"))
             {

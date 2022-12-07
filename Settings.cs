@@ -9,12 +9,13 @@ using System.Text.Json;
 
 namespace restest
 {
+
     public class Settings
     {
 
         private string defaultURL = "http://localhost:3000";
         private string defaultMS = "5";
-        private string defaultProtocol = "http";
+        private string defaultProtocol = "http://";
         private string settingsName = "./settings.json";
 
         public void checkSettings()
@@ -43,6 +44,11 @@ namespace restest
         public string getProtocol()
         {
             return defaultProtocol;
+        }
+
+        public void reset(){
+            Console.WriteLine("Resetting default settings");
+            askDefaults();
         }
 
         private void askDefaults()
@@ -80,7 +86,9 @@ namespace restest
         private string askDefaultUrl()
         {
             Console.WriteLine($"Enter default URL | leave empty for {defaultURL}");
-            string? newDefaultURL = Console.ReadLine() ?? defaultURL;
+            string? input = Console.ReadLine() ?? defaultURL;
+            Url url = new Url(input);
+            string? newDefaultURL = url.getUrl();
             if (newDefaultURL == "") { newDefaultURL = defaultURL; }
             return newDefaultURL;
         }
