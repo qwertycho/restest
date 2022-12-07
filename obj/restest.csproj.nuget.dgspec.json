@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/qwertycho/Desktop/restest/restest.csproj": {}
+    "C:\\Users\\tycho\\Desktop\\restest\\restest.csproj": {}
   },
   "projects": {
-    "/home/qwertycho/Desktop/restest/restest.csproj": {
+    "C:\\Users\\tycho\\Desktop\\restest\\restest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/qwertycho/Desktop/restest/restest.csproj",
+        "projectUniqueName": "C:\\Users\\tycho\\Desktop\\restest\\restest.csproj",
         "projectName": "restest",
-        "projectPath": "/home/qwertycho/Desktop/restest/restest.csproj",
-        "packagesPath": "/home/qwertycho/.nuget/packages/",
-        "outputPath": "/home/qwertycho/Desktop/restest/obj/",
+        "projectPath": "C:\\Users\\tycho\\Desktop\\restest\\restest.csproj",
+        "packagesPath": "C:\\Users\\tycho\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tycho\\Desktop\\restest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/qwertycho/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\tycho\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -48,26 +50,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.11, 6.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.linux-x64",
-              "version": "[6.0.11, 6.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.11, 6.0.11]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

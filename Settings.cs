@@ -9,10 +9,8 @@ using System.Text.Json;
 
 namespace restest
 {
-
     public class Settings
     {
-
         private string defaultURL = "http://localhost:3000";
         private string defaultMS = "5";
         private string defaultProtocol = "http://";
@@ -160,5 +158,4 @@ namespace restest
             public string protocol { get; set; } = "http";
         }
     }
-
 }

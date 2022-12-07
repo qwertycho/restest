@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FgW+PAFqyuZv1k0zGAv0hp1aFUjxjRyaaYEENgFH4p8gmf6oN1JIyozIaCzlWDBpLYOPE3TN/+QmbHc24frjfw==",
+  "dgSpecHash": "/J+++G+pJKKYyofiRiGc20QAfzsE9d2G4uePBeeZUsDQb8iY7Ie/t9Helcv3vpT49Ku5cvuaXoNYaeZqpB9JmQ==",
   "success": true,
-  "projectFilePath": "/home/qwertycho/Desktop/restest/restest.csproj",
-  "expectedPackageFiles": [
-    "/home/qwertycho/.nuget/packages/microsoft.netcore.app.ref/6.0.11/microsoft.netcore.app.ref.6.0.11.nupkg.sha512",
-    "/home/qwertycho/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.11/microsoft.aspnetcore.app.ref.6.0.11.nupkg.sha512",
-    "/home/qwertycho/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.11/microsoft.netcore.app.host.linux-x64.6.0.11.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\tycho\\Desktop\\restest\\restest.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
