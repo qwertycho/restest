@@ -14,6 +14,7 @@ namespace restest
 
         private string defaultURL = "http://localhost:3000";
         private string defaultMS = "5";
+        private string defaultProtocol = "http";
         private string settingsName = "./settings.json";
 
         public void checkSettings()
@@ -39,13 +40,19 @@ namespace restest
             return defaultURL;
         }
 
+        public string getProtocol()
+        {
+            return defaultProtocol;
+        }
+
         private void askDefaults()
         {
 
             string newDefaultURL = askDefaultUrl();
             string newDefaultDuration = askDefaultDuration();
+            string newDefaultProtocol = askDefaultProtocol();
 
-            saveSettings(newDefaultURL, newDefaultDuration);
+            saveSettings(newDefaultURL, newDefaultDuration, newDefaultProtocol);
         }
 
         private void loadSettings()
@@ -61,6 +68,7 @@ namespace restest
                 Defaults? settings = JsonSerializer.Deserialize<Defaults>(jsonSettings);
                 defaultURL = settings.Url;
                 defaultMS = settings.MS;
+                defaultProtocol = settings.protocol;
 
             }catch(Exception ex)
             {
@@ -85,6 +93,19 @@ namespace restest
             return newDefaultDuration;
         }
 
+        private string askDefaultProtocol()
+        {
+            Console.WriteLine($"Enter default protocol | 1 for http, 2 for https | leave empty for http");
+            string? choice = Console.ReadLine();
+            if (choice == "2")
+                { 
+                    return "https://"; 
+                } else
+                {
+                    return "http://";
+                }
+        }
+
         private string parseDuration(string? duration)
         {
             if (duration == "" || duration == null) { duration = defaultMS; }
@@ -101,12 +122,13 @@ namespace restest
             }
         }
 
-        private void saveSettings(string newURL, string newDuration)
+        private void saveSettings(string newURL, string newDuration, string protocol)
         {
             Defaults defaults = new Defaults
             {
                 Url = newURL,
-                MS = newDuration
+                MS = newDuration,
+                protocol = protocol
             };
 
             try
@@ -123,6 +145,7 @@ namespace restest
         internal class Defaults{
             public string? Url { get; set; }
             public string? MS { get; set; }
+            public string protocol { get; set; } = "http";
         }
     }
 
