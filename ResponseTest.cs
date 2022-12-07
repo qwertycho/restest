@@ -41,6 +41,29 @@ namespace restest
 
         }
 
+        public async Task testCountResponses(int count, string url){
+            using HttpClient client = new();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+
+            List<Task> tasks = new List<Task>();
+            List<double> responseTimes = new List<double>();
+
+            for(int i = 0; i < count; i++)
+            {
+                tasks.Add(testResponseTime(client, url));
+            }
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            await Task.WhenAll(tasks);
+            stopwatch.Stop();
+
+            double elapsedTime = stopwatch.Elapsed.TotalMilliseconds;
+            showCountResults(responseTimes, count, elapsedTime);
+        }
+
         private async Task<double> testResponseTime(HttpClient client, string url)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -60,6 +83,11 @@ namespace restest
             Console.WriteLine($"{responses} responses in {duration} MS");
             Console.WriteLine($"{average} average response time");
             Console.WriteLine($"{RPS} responses per second");
+        }
+
+        private void showCountResults(List<double> responseTimes, int count, double elapsedTime)
+        {
+            Console.WriteLine($"{count} responses in {elapsedTime} MS");
         }
 
     }
