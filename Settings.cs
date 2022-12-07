@@ -16,7 +16,7 @@ namespace restest
         private string defaultURL = "http://localhost:3000";
         private string defaultMS = "5";
         private string defaultProtocol = "http://";
-        private string settingsName = "./settings.json";
+        private string settingsName = AppDomain.CurrentDomain.BaseDirectory + "/" + "settings.json";
 
         public void checkSettings()
         {
@@ -146,7 +146,7 @@ namespace restest
             try
             {
                 string json = JsonSerializer.Serialize(defaults);
-                File.WriteAllText("./" + settingsName, json);
+                File.WriteAllText(settingsName, json);
                 loadSettings();
             }catch(Exception ex)
             {
