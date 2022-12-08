@@ -13,13 +13,14 @@ namespace restest
 
         public async Task TestResponseTimes(int duration, string url) 
         {
-
+            //setting up the client for the http requests
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
             client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
+            //stopwatch to make sure the requests stop when the time is up
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<double> responseTimes= new List<double>();
 
@@ -29,7 +30,7 @@ namespace restest
                 {
                     double resTime = await testResponseTime(client, url);
                     responseTimes.Add(resTime);
-                    Console.WriteLine($"Got response in : {resTime}");
+                    Console.WriteLine($"Got response in: {resTime}");
 
                 }catch(Exception ex)
                 {
@@ -41,7 +42,9 @@ namespace restest
 
         }
 
-        public async Task testCountResponses(int count, string url){
+        public async Task testCountResponses(int count, string url)
+        {
+            //setting up the client for the http requests
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
@@ -51,11 +54,13 @@ namespace restest
             List<Task> tasks = new List<Task>();
             List<double> responseTimes = new List<double>();
 
+            //making the selected amount of tasks
             for(int i = 0; i < count; i++)
             {
                 tasks.Add(testResponseTime(client, url));
             }
 
+            //start timing the tasks
             Stopwatch stopwatch = Stopwatch.StartNew();
             await Task.WhenAll(tasks);
             stopwatch.Stop();

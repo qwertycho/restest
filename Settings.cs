@@ -11,9 +11,11 @@ namespace restest
 {
     public class Settings
     {
+        //Program default setting
         private string defaultURL = "http://localhost:3000";
         private string defaultMS = "5";
         private string defaultProtocol = "http://";
+        //Making sure that the settings.json file will be in the same directory as the program
         private string settingsName = AppDomain.CurrentDomain.BaseDirectory + "/" + "settings.json";
 
         public void checkSettings()
@@ -69,6 +71,7 @@ namespace restest
             }
             try
             {
+                //get the settings from settings.json and load them as the defaults
                 Defaults? settings = JsonSerializer.Deserialize<Defaults>(jsonSettings);
                 defaultURL = settings.Url;
                 defaultMS = settings.MS;
@@ -89,6 +92,7 @@ namespace restest
             Console.WriteLine(input);
             Url url = new Url(input);
 
+            //using Url the check if the url is correct and set http protocol if it's missing
             Console.WriteLine($"Using {url.getUrl()} as default URL");
             string? newDefaultURL = url.getUrl();
             if (newDefaultURL == "") { newDefaultURL = defaultURL; }
@@ -118,7 +122,9 @@ namespace restest
 
         private string parseDuration(string? duration)
         {
+            //making sure that there is a value
             if (duration == "" || duration == null) { duration = defaultMS; }
+            //try to parse seconds to MS
             try
             {
                 int MS = int.Parse(duration);
@@ -152,6 +158,7 @@ namespace restest
             }
         }
 
+        //class for creating the json
         internal class Defaults{
             public string? Url { get; set; }
             public string? MS { get; set; }
