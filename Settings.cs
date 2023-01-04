@@ -8,21 +8,9 @@ namespace restest
         private string defaultURL = "http://localhost:3000";
         private string defaultMS = "5";
         private string defaultProtocol = "http://";
+
         //Making sure that the settings.json file will be in the same directory as the program
         private string settingsName = AppDomain.CurrentDomain.BaseDirectory + "/" + "settings.json";
-
-        public void checkSettings()
-        {
-            if (!File.Exists(settingsName))
-            {
-                Console.WriteLine($"No {settingsName} file found \n Setting up new defaults...");
-                askDefaults();
-            }
-            else
-            {
-                loadSettings();
-            }
-        }
 
         public int getDuration()
         {
@@ -39,6 +27,19 @@ namespace restest
             return defaultProtocol;
         }
 
+        public void checkSettings()
+        {
+            if (!File.Exists(settingsName))
+            {
+                Console.WriteLine($"No {settingsName} file found \n Setting up new defaults...");
+                askDefaults();
+            }
+            else
+            {
+                loadSettings();
+            }
+        }
+
         public void reset(){
             Console.WriteLine("Resetting default settings");
             askDefaults();
@@ -46,12 +47,15 @@ namespace restest
 
         private void askDefaults()
         {
-
+            string newDefaultProtocol = askDefaultProtocol();
             string newDefaultURL = askDefaultUrl();
             string newDefaultDuration = askDefaultDuration();
-            string newDefaultProtocol = askDefaultProtocol();
 
             saveSettings(newDefaultURL, newDefaultDuration, newDefaultProtocol);
+
+            showSettings();
+
+            Console.WriteLine("Settings saved!");
         }
 
         private void loadSettings()
@@ -61,19 +65,33 @@ namespace restest
             {
                 Console.WriteLine("Saved settings are empty!");
                 askDefaults();
+            } else
+            {
+                Defaults defaults = JsonSerializer.Deserialize<Defaults>(jsonSettings) ?? new Defaults();
+                parseSettings(defaults);
             }
-            try
-            {
-                //get the settings from settings.json and load them as the defaults
-                Defaults? settings = JsonSerializer.Deserialize<Defaults>(jsonSettings);
-                defaultURL = settings.Url;
-                defaultMS = settings.MS;
-                defaultProtocol = settings.protocol;
+        }
 
-            }catch(Exception ex)
+        private void parseSettings(Defaults defaults)
+        {
+            defaultURL = defaults.Url ?? defaultURL;
+            defaultMS = defaults.MS ?? defaultMS;
+            defaultProtocol = defaults.protocol ?? defaultProtocol;
+        }
+
+        private string askDefaultProtocol()
+        {
+            Console.WriteLine($"Enter default protocol | 1 for http, 2 for https | leave empty for http");
+            string? choice = Console.ReadLine();
+            if (choice == "2")
             {
-                Console.WriteLine("Error while reading saved settings!");
-                askDefaults();
+                defaultProtocol = "https://";
+                return "https://";
+            }
+            else
+            {
+                defaultProtocol = "http://";
+                return "http://";
             }
         }
 
@@ -83,7 +101,7 @@ namespace restest
             string? input = Console.ReadLine();
             if (input == "") { input = defaultURL; }
             Console.WriteLine(input);
-            Url url = new Url(input);
+            Url url = new Url(input ?? defaultURL);
 
             //using Url the check if the url is correct and set http protocol if it's missing
             Console.WriteLine($"Using {url.getUrl()} as default URL");
@@ -98,19 +116,6 @@ namespace restest
             string? newDefaultDuration = Console.ReadLine();
             newDefaultDuration = parseDuration( newDefaultDuration);
             return newDefaultDuration;
-        }
-
-        private string askDefaultProtocol()
-        {
-            Console.WriteLine($"Enter default protocol | 1 for http, 2 for https | leave empty for http");
-            string? choice = Console.ReadLine();
-            if (choice == "2")
-                { 
-                    return "https://"; 
-                } else
-                {
-                    return "http://";
-                }
         }
 
         private string parseDuration(string? duration)
@@ -149,6 +154,12 @@ namespace restest
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        private void showSettings()
+        {
+            Console.WriteLine("Settings:");
+            Console.WriteLine($" {defaultURL} | {defaultMS} | {defaultProtocol}");
         }
 
         //class for creating the json
