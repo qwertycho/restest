@@ -10,46 +10,60 @@ namespace restest
 {
     public class ResponseTest
     {
+        private Resulter resulter = new Resulter();
 
-        public async Task TestResponseTimes(int duration, string url) 
+        private HttpClient clientFactory()
         {
             //setting up the client for the http requests
-            using HttpClient client = new();
+            HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
             client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
+            return client;
+        }
+
+        public async Task TestResponseTimes(int duration, string url) 
+        {
+            HttpClient client = clientFactory();
+            int errorCount = 0;
+
             //stopwatch to make sure the requests stop when the time is up
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<double> responseTimes= new List<double>();
-
             while(stopwatch.ElapsedMilliseconds < duration) 
             {
+                
+                if(errorCount > 10)
+                {
+                    Console.WriteLine("Too many errors, stopping");
+                    break;
+                }
+
                 try
                 {
-                    double resTime = await testResponseTime(client, url);
-                    responseTimes.Add(resTime);
-                    Console.WriteLine($"Got response in: {resTime}");
+                    Response response = await testResponseTime(client, url);
+                    responseTimes.Add(response.responseTime);
+                    Console.Write($"\r Got {response.responseCode} response in: {response.responseTime} MS ");
 
-                }catch(Exception ex)
+                }catch (Exception)
                 {
-                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine($"Error in request to {url}");
+                    errorCount++;
                 }
             }
 
-            showResults(responseTimes, duration);
+            if(responseTimes.Count > 0)
+            {
+                resulter.showResults(responseTimes, duration);
+            }
 
         }
 
         public async Task testCountResponses(int count, string url)
         {
-            //setting up the client for the http requests
-            using HttpClient client = new();
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+            HttpClient client = clientFactory();
 
             List<Task> tasks = new List<Task>();
             List<double> responseTimes = new List<double>();
@@ -66,36 +80,28 @@ namespace restest
             stopwatch.Stop();
 
             double elapsedTime = stopwatch.Elapsed.TotalMilliseconds;
-            showCountResults(responseTimes, count, elapsedTime);
+            resulter.showCountResults(responseTimes, count, elapsedTime);
         }
 
-        private async Task<double> testResponseTime(HttpClient client, string url)
+        private async Task<Response> testResponseTime(HttpClient client, string url)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
-            var response = await client.GetAsync(url);
+            
+            var serverResponse = await client.GetAsync(url);
+            Response response = new Response();
+            response.responseCode = (int)serverResponse.StatusCode;
+            response.responseTime = stopwatch.Elapsed.TotalMilliseconds;
             stopwatch.Stop();
 
-            double elapsedTime = stopwatch.Elapsed.TotalMilliseconds;
-            return elapsedTime;
+            return response;
         }
 
-        private void showResults(List<double> responseTimes, int duration)
+        internal class Response
         {
-            int responses = responseTimes.Count();
-            double average = Math.Round(responseTimes.Average(), 2);
-            double responsesPerSecond = responses / (duration / 1000);
-            double RPS = Math.Round(responsesPerSecond, 2);
-            Console.WriteLine($"{responses} responses in {duration} MS");
-            Console.WriteLine($"{average} average response time");
-            Console.WriteLine($"{RPS} responses per second");
-        }
-
-        private void showCountResults(List<double> responseTimes, int count, double elapsedTime)
-        {
-            Console.WriteLine($"{count} responses in {elapsedTime} MS");
+            public double responseTime { get; set; }
+            public int responseCode { get; set; }
         }
 
     }
-
 
 }
