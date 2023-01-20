@@ -1,13 +1,13 @@
-
 namespace restest
 {
     public class Url
     {
-        Settings settings = new Settings();
+        private string protocol;
 
         private string url;
-        public Url(string url)
+        public Url(string url, string protocol)
         {
+            this.protocol = protocol;
             this.url = checkUrl(url);
         }
 
@@ -24,8 +24,8 @@ namespace restest
             }
             else
             {
-                Console.WriteLine($"No protocol specified, using {settings.getProtocol()}");
-                return settings.getProtocol() + url;; 
+                Console.WriteLine($"No protocol specified, using {this.protocol}");
+                return this.protocol + url; ;
             }
         }
 

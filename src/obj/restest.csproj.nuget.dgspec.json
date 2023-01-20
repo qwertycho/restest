@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\code\\restest\\restest.csproj": {}
+    "D:\\code\\restest\\src\\restest.csproj": {}
   },
   "projects": {
-    "D:\\code\\restest\\restest.csproj": {
+    "D:\\code\\restest\\src\\restest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\code\\restest\\restest.csproj",
+        "projectUniqueName": "D:\\code\\restest\\src\\restest.csproj",
         "projectName": "restest",
-        "projectPath": "D:\\code\\restest\\restest.csproj",
+        "projectPath": "D:\\code\\restest\\src\\restest.csproj",
         "packagesPath": "C:\\Users\\tycho\\.nuget\\packages\\",
-        "outputPath": "D:\\code\\restest\\obj\\",
+        "outputPath": "D:\\code\\restest\\src\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\tycho\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

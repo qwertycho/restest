@@ -101,7 +101,7 @@ namespace restest
             string? input = Console.ReadLine();
             if (input == "") { input = defaultURL; }
             Console.WriteLine(input);
-            Url url = new Url(input ?? defaultURL);
+            Url url = new Url(input ?? defaultURL, this.defaultProtocol);
 
             //using Url the check if the url is correct and set http protocol if it's missing
             Console.WriteLine($"Using {url.getUrl()} as default URL");

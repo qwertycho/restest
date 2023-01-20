@@ -47,9 +47,9 @@ namespace restest
                     responseTimes.Add(response.responseTime);
                     Console.Write($"\r Got {response.responseCode} response in: {response.responseTime} MS ");
 
-                }catch (Exception)
+                }catch (Exception e)
                 {
-                    Console.WriteLine($"Error in request to {url}");
+                    Console.WriteLine($" \n Error in request to {url}, error: {e.Message}");
                     errorCount++;
                 }
             }
