@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Diagnostics;
 
 namespace restest
 {
     public class ResponseTest
     {
-        private Resulter resulter = new Resulter();
-
         private HttpClient clientFactory()
         {
             //setting up the client for the http requests
@@ -56,7 +49,7 @@ namespace restest
 
             if(responseTimes.Count > 0)
             {
-                resulter.showResults(responseTimes, duration);
+                Resulter.showResults(responseTimes, duration);
             }
 
         }
@@ -76,11 +69,22 @@ namespace restest
 
             //start timing the tasks
             Stopwatch stopwatch = Stopwatch.StartNew();
-            await Task.WhenAll(tasks);
-            stopwatch.Stop();
+
+             foreach (Task<Response> task in tasks)
+             {
+                try{
+                 Response response = await task;
+                 responseTimes.Add(response.responseTime);
+                } catch (Exception e)
+                {
+                    Console.WriteLine($" \n Error in request to {url}, error: {e.Message}");
+                }
+             }
+             
+             stopwatch.Stop();
 
             double elapsedTime = stopwatch.Elapsed.TotalMilliseconds;
-            resulter.showCountResults(responseTimes, count, elapsedTime);
+            Resulter.showResults(responseTimes, elapsedTime);
         }
 
         private async Task<Response> testResponseTime(HttpClient client, string url)
@@ -88,9 +92,9 @@ namespace restest
             Stopwatch stopwatch = Stopwatch.StartNew();
             
             var serverResponse = await client.GetAsync(url);
-            Response response = new Response();
-            response.responseCode = (int)serverResponse.StatusCode;
-            response.responseTime = stopwatch.Elapsed.TotalMilliseconds;
+             Response response = new Response();
+             response.responseCode = (int)serverResponse.StatusCode;
+             response.responseTime = stopwatch.Elapsed.TotalMilliseconds;
             stopwatch.Stop();
 
             return response;
