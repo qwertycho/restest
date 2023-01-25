@@ -58,32 +58,25 @@ namespace restest
         {
             HttpClient client = clientFactory();
 
-            List<Task> tasks = new List<Task>();
             List<double> responseTimes = new List<double>();
+            List<Response> responses = new List<Response>();
 
-            //making the selected amount of tasks
-            for(int i = 0; i < count; i++)
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            double FirstTimeOfset = 0;
+            for (int i = 0; i < count +1 ; i++)
             {
-                tasks.Add(testResponseTime(client, url));
+                Response res = await testResponseTime(client, url);
+                if(i != 0){
+
+                responseTimes.Add(res.responseTime);
+                } else{
+                    FirstTimeOfset = res.responseTime;
+                }
             }
 
-            //start timing the tasks
-            Stopwatch stopwatch = Stopwatch.StartNew();
+            double elapsedTime = stopwatch.Elapsed.TotalMilliseconds - FirstTimeOfset;
+            stopwatch.Stop();
 
-             foreach (Task<Response> task in tasks)
-             {
-                try{
-                 Response response = await task;
-                 responseTimes.Add(response.responseTime);
-                } catch (Exception e)
-                {
-                    Console.WriteLine($" \n Error in request to {url}, error: {e.Message}");
-                }
-             }
-             
-             stopwatch.Stop();
-
-            double elapsedTime = stopwatch.Elapsed.TotalMilliseconds;
             Resulter.showResults(responseTimes, elapsedTime);
         }
 

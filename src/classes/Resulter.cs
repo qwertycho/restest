@@ -9,8 +9,8 @@ namespace restest
             double RPS = Math.Round(responses / (duration / 1000), 1);
 
             Console.WriteLine("\n\n");	
-            Console.WriteLine(" Total responses | Average response time | Responses per second");
-            Console.WriteLine($" {responses, -15} | {average, -21} | {RPS, -21} \n");
+            Console.WriteLine(" Total responses | Average response time | Responses per second | Total time");
+            Console.WriteLine($" {responses, -15} | {average, -21} | {RPS, -20} | {duration, -15} \n");
         }
     }
 

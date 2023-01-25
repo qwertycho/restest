@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cybgWOUyq8xxv7mxxOE96cSHb1VVQZ0rPS8K8piyJsYHLRpLHEqlWBV0A2Ojo0m6Ki5HagoHZgVci9f3UCV1VA==",
+  "dgSpecHash": "AP1u+4v6b0o9bAmexP/k2Tf6QhaACo5fguxkHaoCn9LtXV/hea57rLpJbkVReMzeveAHnzPWUS5LWvyZ1qrqGA==",
   "success": true,
-  "projectFilePath": "D:\\code\\restest\\src\\restest.csproj",
+  "projectFilePath": "/home/qwertycho/Desktop/restest/src/restest.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
